@@ -1,6 +1,5 @@
 import time
 
-start_time = time.time()
 
 f = open('names_1.txt', 'r')
 names_1 = f.read().split("\n")  # List containing 10000 names
@@ -57,13 +56,37 @@ def get_dupes(l1, l2):
 
     return duplicates
 
-names_1 = merge_sort(names_1)
-names_2 = merge_sort(names_2)
-duplicates = get_dupes(names_1, names_2)
+start_time = time.time()
+duplicates = get_dupes(merge_sort(names_1), merge_sort(names_2))
+end_time = time.time()
+print(
+    "---- Merge Sort ----", 
+    f"{len(duplicates)} duplicates:",
+    f"{', '.join(duplicates)}",
+    f"runtime: {end_time - start_time} seconds",
+    sep='\n\n'
+)
 
 ## best solution
-# TODO: binary search tree
+from binary_search_tree import BinarySearchTreeNode
+
+start_time = time.time()
+
+BST = BinarySearchTreeNode(names_1[0])
+for name in names_1[1:]:
+    BST.insert(name)
+
+duplicates = []
+for name in names_2:
+    if BST.contains(name):
+        duplicates.append(name)
 
 end_time = time.time()
-print (f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
-print (f"runtime: {end_time - start_time} seconds")
+
+print(
+    "---- Merge Sort ----", 
+    f"{len(duplicates)} duplicates:",
+    f"{', '.join(duplicates)}",
+    f"runtime: {end_time - start_time} seconds",
+    sep='\n\n'
+)
